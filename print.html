@@ -271,7 +271,7 @@ capture_clippy_output(<a href="rust.html#capture_clippy_output-name">name</a>)
 <pre>
 error_format(<a href="rust.html#error_format-name">name</a>)
 </pre>
-<p>Change the <a href="https://doc.rust-lang.org/rustc/command-line-arguments.html#option-error-format">--error-format</a> flag from the command line with <code>--@rules_rust//:error_format</code>. See rustc documentation for valid values.</p>
+<p>Change the <a href="https://doc.rust-lang.org/rustc/command-line-arguments.html#option-error-format">--error-format</a> flag from the command line with <code>--@rules_rust//rust/settings:error_format</code>. See rustc documentation for valid values.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="error_format-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -282,7 +282,7 @@ error_format(<a href="rust.html#error_format-name">name</a>)
 <pre>
 extra_rustc_flag(<a href="rust.html#extra_rustc_flag-name">name</a>)
 </pre>
-<p>Add additional rustc_flag from the command line with <code>--@rules_rust//:extra_rustc_flag</code>. Multiple uses are accumulated and appended after the extra_rustc_flags.</p>
+<p>Add additional rustc_flag from the command line with <code>--@rules_rust//rust/settings:extra_rustc_flag</code>. Multiple uses are accumulated and appended after the extra_rustc_flags.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="extra_rustc_flag-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -293,7 +293,7 @@ extra_rustc_flag(<a href="rust.html#extra_rustc_flag-name">name</a>)
 <pre>
 extra_rustc_flags(<a href="rust.html#extra_rustc_flags-name">name</a>)
 </pre>
-<p>Add additional rustc_flags from the command line with <code>--@rules_rust//:extra_rustc_flags</code>. This flag should only be used for flags that need to be applied across the entire build. For options that apply to individual crates, use the rustc_flags attribute on the individual crate's rule instead. NOTE: These flags not applied to the exec configuration (proc-macros, cargo_build_script, etc); use <code>--@rules_rust//:extra_exec_rustc_flags</code> to apply flags to the exec configuration.</p>
+<p>Add additional rustc_flags from the command line with <code>--@rules_rust//rust/settings:extra_rustc_flags</code>. This flag should only be used for flags that need to be applied across the entire build. For options that apply to individual crates, use the rustc_flags attribute on the individual crate's rule instead. NOTE: These flags not applied to the exec configuration (proc-macros, cargo_build_script, etc); use <code>--@rules_rust//rust/settings:extra_exec_rustc_flags</code> to apply flags to the exec configuration.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="extra_rustc_flags-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -920,7 +920,7 @@ build --output_groups=+clippy_checks
 <p>To use a local clippy.toml, add the following flag to your <code>.bazelrc</code>. Note that due to
 the upstream implementation of clippy, this file must be named either <code>.clippy.toml</code> or
 <code>clippy.toml</code>. Using a custom config file requires Rust 1.34.0 or newer.</p>
-<pre><code class="language-text">build --@rules_rust//:clippy.toml=//:clippy.toml
+<pre><code class="language-text">build --@rules_rust//rust/settings:clippy.toml=//:clippy.toml
 </code></pre>
 <p><a id="rust_clippy"></a></p>
 <h2 id="rust_clippy"><a class="header" href="#rust_clippy">rust_clippy</a></h2>
@@ -1014,11 +1014,11 @@ build --output_groups=+rustfmt_checks
 </code></pre>
 <p>It's recommended to only enable this aspect in your CI environment so formatting issues do not
 impact user's ability to rapidly iterate on changes.</p>
-<p>The <code>rustfmt_aspect</code> also uses a <code>--@rules_rust//:rustfmt.toml</code> setting which determines the
+<p>The <code>rustfmt_aspect</code> also uses a <code>--@rules_rust//rust/settings:rustfmt.toml</code> setting which determines the
 <a href="https://rust-lang.github.io/rustfmt/">configuration file</a> used by the formatter (<code>@rules_rust//tools/rustfmt</code>) and the aspect
 (<code>rustfmt_aspect</code>). This flag can be added to your <code>.bazelrc</code> file to ensure a consistent config
 file is used whenever <code>rustfmt</code> is run:</p>
-<pre><code class="language-text">build --@rules_rust//:rustfmt.toml=//:rustfmt.toml
+<pre><code class="language-text">build --@rules_rust//rust/settings:rustfmt.toml=//:rustfmt.toml
 </code></pre>
 <h3 id="tips"><a class="header" href="#tips">Tips</a></h3>
 <p>Any target which uses Bazel generated sources will cause the <code>@rules_rust//tools/rustfmt</code> tool to fail with
@@ -1061,7 +1061,7 @@ rustfmt_aspect(<a href="rust_fmt.html#rustfmt_aspect-name">name</a>)
 <ul>
 <li><code>rustfmt_checks</code>: Executes <code>rustfmt --check</code> on the specified target.</li>
 </ul>
-<p>The build setting <code>@rules_rust//:rustfmt.toml</code> is used to control the Rustfmt <a href="https://rust-lang.github.io/rustfmt/">configuration settings</a>
+<p>The build setting <code>@rules_rust//rust/settings:rustfmt.toml</code> is used to control the Rustfmt <a href="https://rust-lang.github.io/rustfmt/">configuration settings</a>
 used at runtime.</p>
 <p>This aspect is executed on any target which provides the <code>CrateInfo</code> provider. However
 users may tag a target with <code>no-rustfmt</code> or <code>no-format</code> to have it skipped. Additionally,
@@ -1304,7 +1304,7 @@ to ensure a <code>rust-project.json</code> file is created and up to date when t
 </code></pre>
 <h4 id="alternative-vscode-option-prototype"><a class="header" href="#alternative-vscode-option-prototype">Alternative vscode option (prototype)</a></h4>
 <p>Add the following to your bazelrc:</p>
-<pre><code>build --@rules_rust//:rustc_output_diagnostics=true --output_groups=+rust_lib_rustc_output,+rust_metadata_rustc_output
+<pre><code>build --@rules_rust//rust/settings:rustc_output_diagnostics=true --output_groups=+rust_lib_rustc_output,+rust_metadata_rustc_output
 </code></pre>
 <p>Then you can use a prototype <a href="https://marketplace.visualstudio.com/items?itemName=MattStark.bazel-rust-analyzer">rust-analyzer plugin</a> that automatically collects the outputs whenever you recompile.</p>
 <p><a id="rust_analyzer_toolchain"></a></p>
@@ -1412,7 +1412,7 @@ cargo_dep_env(<a href="flatten.html#cargo_dep_env-name">name</a>, <a href="flatt
 <pre>
 error_format(<a href="flatten.html#error_format-name">name</a>)
 </pre>
-<p>Change the <a href="https://doc.rust-lang.org/rustc/command-line-arguments.html#option-error-format">--error-format</a> flag from the command line with <code>--@rules_rust//:error_format</code>. See rustc documentation for valid values.</p>
+<p>Change the <a href="https://doc.rust-lang.org/rustc/command-line-arguments.html#option-error-format">--error-format</a> flag from the command line with <code>--@rules_rust//rust/settings:error_format</code>. See rustc documentation for valid values.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="error_format-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -1423,7 +1423,7 @@ error_format(<a href="flatten.html#error_format-name">name</a>)
 <pre>
 extra_rustc_flag(<a href="flatten.html#extra_rustc_flag-name">name</a>)
 </pre>
-<p>Add additional rustc_flag from the command line with <code>--@rules_rust//:extra_rustc_flag</code>. Multiple uses are accumulated and appended after the extra_rustc_flags.</p>
+<p>Add additional rustc_flag from the command line with <code>--@rules_rust//rust/settings:extra_rustc_flag</code>. Multiple uses are accumulated and appended after the extra_rustc_flags.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="extra_rustc_flag-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -1434,7 +1434,7 @@ extra_rustc_flag(<a href="flatten.html#extra_rustc_flag-name">name</a>)
 <pre>
 extra_rustc_flags(<a href="flatten.html#extra_rustc_flags-name">name</a>)
 </pre>
-<p>Add additional rustc_flags from the command line with <code>--@rules_rust//:extra_rustc_flags</code>. This flag should only be used for flags that need to be applied across the entire build. For options that apply to individual crates, use the rustc_flags attribute on the individual crate's rule instead. NOTE: These flags not applied to the exec configuration (proc-macros, cargo_build_script, etc); use <code>--@rules_rust//:extra_exec_rustc_flags</code> to apply flags to the exec configuration.</p>
+<p>Add additional rustc_flags from the command line with <code>--@rules_rust//rust/settings:extra_rustc_flags</code>. This flag should only be used for flags that need to be applied across the entire build. For options that apply to individual crates, use the rustc_flags attribute on the individual crate's rule instead. NOTE: These flags not applied to the exec configuration (proc-macros, cargo_build_script, etc); use <code>--@rules_rust//rust/settings:extra_exec_rustc_flags</code> to apply flags to the exec configuration.</p>
 <p><strong>ATTRIBUTES</strong></p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Name</th><th style="text-align: left">Description</th><th style="text-align: left">Type</th><th style="text-align: left">Mandatory</th><th style="text-align: left">Default</th></tr></thead><tbody>
 <tr><td style="text-align: left"><a id="extra_rustc_flags-name"></a>name</td><td style="text-align: left">A unique name for this target.</td><td style="text-align: left"><a href="https://bazel.build/concepts/labels#target-names">Name</a></td><td style="text-align: left">required</td><td style="text-align: left"></td></tr>
@@ -2629,7 +2629,7 @@ rustfmt_aspect(<a href="flatten.html#rustfmt_aspect-name">name</a>)
 <ul>
 <li><code>rustfmt_checks</code>: Executes <code>rustfmt --check</code> on the specified target.</li>
 </ul>
-<p>The build setting <code>@rules_rust//:rustfmt.toml</code> is used to control the Rustfmt <a href="https://rust-lang.github.io/rustfmt/">configuration settings</a>
+<p>The build setting <code>@rules_rust//rust/settings:rustfmt.toml</code> is used to control the Rustfmt <a href="https://rust-lang.github.io/rustfmt/">configuration settings</a>
 used at runtime.</p>
 <p>This aspect is executed on any target which provides the <code>CrateInfo</code> provider. However
 users may tag a target with <code>no-rustfmt</code> or <code>no-format</code> to have it skipped. Additionally,
