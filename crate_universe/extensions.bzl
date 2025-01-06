@@ -583,6 +583,7 @@ def _generate_hub_and_spokes(*, module_ctx, cargo_bazel, cfg, annotations, rende
         name = cfg.name,
         contents = {
             "BUILD.bazel": module_ctx.read(crates_dir.get_child("BUILD.bazel")),
+            "alias_rules.bzl": module_ctx.read(crates_dir.get_child("alias_rules.bzl")),
             "defs.bzl": module_ctx.read(crates_dir.get_child("defs.bzl")),
         },
     )
